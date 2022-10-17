@@ -54,3 +54,46 @@ const FreetSchema = new Schema<Freet>({
 
 const FreetModel = model<Freet>('Freet', FreetSchema);
 export default FreetModel;
+
+/*
+
+--ADD
+
+:::::::::::::::
+FREET
+:::::::::::::::
+
+Likes
+Content
+Subfreets
+Ranking
+
+:::::::::::::::
+USER
+:::::::::::::::
+
+Circles
+FreetLimit
+CircleLimit
+Friends
+
+
+--MAKE
+
+:::::::::::::::
+FEED
+:::::::::::::::
+
+Order by
+Datespan
+Filters (includes keys from circles, as well as time and date)
+
+:::::::::::::::
+CIRCLES
+:::::::::::::::
+
+Users
+Roles
+Keys (auto-generated)
+
+*/
