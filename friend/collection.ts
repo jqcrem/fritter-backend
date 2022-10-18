@@ -20,12 +20,22 @@ class FriendCollection {
    * @return {Promise<HydratedDocument<Freet>>} - The newly created freet
    */
   static async addOne(UserA: Types.ObjectId | string, UserB: Types.ObjectId | string, status: string): Promise<HydratedDocument<Friend>> {
+    console.log("got here");
     const friend = new FriendModel({
       UserA,
       UserB,
       status,
     });
+    console.log('new friend');
     await friend.save(); // Saves freet to MongoDB
+    console.log('saved');
+    return friend.populate('UserA');
+  }
+
+  static async updateOne(friendID: Types.ObjectId | string, status: string): Promise<HydratedDocument<Friend>> {
+    const friend = await FriendModel.findOne({_id: friendID});
+    friend.status = status;
+    await friend.save();
     return friend.populate('UserA');
   }
 

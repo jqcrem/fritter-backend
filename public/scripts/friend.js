@@ -10,3 +10,10 @@ function addFriend(fields) {
     .then(showResponse)
     .catch(showResponse);
 }
+
+function updateFriend(fields) {
+  fetch(`/api/friends/${fields.id}`, {method: 'PUT', body: JSON.stringify(fields), headers: {'Content-Type': 'application/json'}})
+    .then(showResponse)
+    .catch(ShowResponse);
+}
+
