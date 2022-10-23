@@ -18,11 +18,26 @@ class UserCollection {
    * @param {string} password - The password of the user
    * @return {Promise<HydratedDocument<User>>} - The newly created user
    */
-  static async addOne(username: string, password: string): Promise<HydratedDocument<User>> {
+  static async addOne(username: string, 
+                      password: string, 
+                      name: string | null, 
+                      rootUserId: Types.ObjectId | null, 
+                      rootUsername: Types.ObjectId | null, 
+                      phoneNumber: string | null): Promise<HydratedDocument<User>> {
     const dateJoined = new Date();
+    var accessKey = username + dateJoined.toString()
+    var user;
+    var permissions;
+    if (rootUserId){ //If there's a rootID, then that means this user is an alias
+      permissions = {'max_breakdowns': 10, 'max_aliases': 0, 'max_circles': 0}
+      user = new UserModel({username, password, dateJoined, accessKey, permissions, rootUserId, rootUsername, phoneNumber})
+    }
+    else{
+      permissions = {'max_breakdowns': 50, 'max_aliases': 1, 'max_circles': 3}
+      user = new UserModel({username, password, name, dateJoined, accessKey, permissions});
+    }
 
-    const user = new UserModel({username, password, dateJoined});
-    await user.save(); // Saves user to MongoDB
+    await user.save()
     return user;
   }
 

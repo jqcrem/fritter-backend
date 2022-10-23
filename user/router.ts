@@ -85,7 +85,13 @@ router.post(
     userValidator.isValidPassword
   ],
   async (req: Request, res: Response) => {
-    const user = await UserCollection.addOne(req.body.username, req.body.password);
+    let username = req.body.username
+    let password = req.body.password
+    let name = req.body.name ?? null
+    let rootUserId = req.body.rootUserId ?? null
+    let rootUsername = req.body.rootUsername ?? null
+    let phoneNumber = req.body.phoneNUmber ?? null
+    const user = await UserCollection.addOne(req.body.username, req.body.password, name, rootUserId, rootUsername, phoneNumber);
     req.session.userId = user._id.toString();
     res.status(201).json({
       message: `Your account was created successfully. You have been logged in as ${user.username}`,

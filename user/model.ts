@@ -1,5 +1,7 @@
 import type {Types} from 'mongoose';
 import {Schema, model} from 'mongoose';
+import ObjectId from 'mongoose';
+import Map from 'mongoose';
 
 /**
  * This file defines the properties stored in a User
@@ -32,6 +34,37 @@ const UserSchema = new Schema({
   dateJoined: {
     type: Date,
     required: true
+  },
+  // NEW: The root user connected to this account
+  rootUserId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: false
+  },
+  // NEW: The root username 
+  rootUsername: {
+    type: String,
+    required: false
+  },
+  // NEW: Permissions on the account
+  permissions: {
+    type: Schema.Types.Map,
+    required: true
+  },
+  // NEW: accessKey is a key that the user can provide to people. Is username+dateLastUpdated
+  accessKey: {
+    type: String,
+    required: true
+  },
+  //NEW: name is the actual name of the user
+  name: {
+    type: String,
+    required: false
+  },
+  // New: phoneNumber is the phone number of the user
+  phoneNumber: {
+    type: String,
+    required: false
   }
 });
 

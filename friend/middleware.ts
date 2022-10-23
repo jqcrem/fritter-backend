@@ -82,6 +82,16 @@ const statusValid = async (req: Request, res: Response, next: NextFunction) => {
   next();
  }
 
+const alreadyFriends = async (req: Request, res: Response, next: NextFunction) => {
+  if (! ['FOLLOWER', 'FOLLOWING', 'BLOCKED'].includes(req.body.status)){
+    res.status(400).json({
+      error: 'Friend status is not valid. Must be either FOLLOWER, FOLLOWING, or BLOCKED'
+    })
+    return;
+  }
+  next();
+ }
+
 
  //Check for if status is FOLLOWER, FOLLOWING, or BLOCKED
  //Check that user being friended is not current user
