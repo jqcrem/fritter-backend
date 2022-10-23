@@ -92,6 +92,14 @@ class UserCollection {
       user.username = userDetails.username as string;
     }
 
+    if (userDetails.permissions) {
+      user.permissions = userDetails.permissions;
+    }
+
+    if (userDetails.accessKey) {
+      user.accessKey = userDetails.accessKey;
+    }
+
     await user.save();
     return user;
   }
@@ -114,9 +122,10 @@ class UserCollection {
    * @return {Promise<HydratedDocument<User>> | Promise<null>} - The user with the given rootUserId, if any
    */
   static async findAllByRootUser(id: Types.ObjectId): Promise<Array<HydratedDocument<User>>> {
-    return UserModel.find({
+    const users = await UserModel.find({
       rootUserId: id,
     });
+    return users;
   }
 
     /**

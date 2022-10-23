@@ -44,3 +44,15 @@ function createAlias(fields) {
     .then(showResponse)
     .catch(showResponse);
 }
+
+function getMyAliases(fields) {
+  fetch('/api/users/alias', {method: 'PUT', body: JSON.stringify(fields), headers: {'Content-Type': 'application/json'}})
+    .then(showResponse)
+    .catch(showResponse);
+}
+
+function updateAccessKey(fields) {
+  fetch('/api/users/features', {method: 'PUT', body: JSON.stringify(fields), headers: {'Content-Type': 'application/json'}})
+    .then(showResponse)
+    .catch(showResponse);
+}

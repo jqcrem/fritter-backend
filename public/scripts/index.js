@@ -42,6 +42,8 @@ const formsAndHandlers = {
   'delete-freet': deleteFreet,
   'add-friend': addFriend,
   'update-friend': updateFriend,
+  'get-aliases': getMyAliases,
+  'update-access-key': updateAccessKey,
 };
 
 // Attach handlers to forms

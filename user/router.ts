@@ -103,45 +103,6 @@ router.post(
 );
 
 /**
- * Create a user alias account.
- *
- * @name POST /api/users/alias
- *
- * @param {string} password - user's password
- * @return {UserResponse} - The created user
- * @throws {403} - If user is logged out
- * @throws {409} - If username is already taken
- * @throws {400} - If password or username is not in correct format
- *
- */
-router.post(
-  '/alias',
-  [
-    userValidator.isUserLoggedIn,
-    userValidator.isValidUsername,
-    userValidator.isUsernameNotAlreadyInUse,
-    userValidator.isValidPassword
-    //TODO need to add isValidPasswordForAlias
-    //TODO need to add isMaxAliasesReached
-  ],
-  async (req: Request, res: Response) => {
-    let username = req.body.username
-    let password = req.body.password
-    let name = req.body.name ?? null
-    let rootUserId = req.session.userId
-    let rootUser = await UserCollection.findOneByUserId(rootUserId);
-    let rootUsername = rootUser.username
-    let phoneNumber = req.body.phoneNumber ?? null //TODO: see how to check phone number exists for root User
-    const user = await UserCollection.addOne(username, password, name, rootUserId, rootUsername, phoneNumber);
-    req.session.userId = user._id.toString();
-    res.status(201).json({
-      message: `Your alias account was created successfully. You have been logged in as ${user.username}`,
-      user: util.constructUserResponse(user)
-    });
-  }
-);
-
-/**
  * Update a user's profile.
  *
  * @name PUT /api/users
@@ -192,6 +153,130 @@ router.delete(
     res.status(200).json({
       message: 'Your account has been deleted successfully.'
     });
+  }
+);
+
+/**
+ * Create a user alias account.
+ *
+ * @name POST /api/users/alias
+ *
+ * @param {string} password - user's password
+ * @return {UserResponse} - The created user
+ * @throws {403} - If user is logged out
+ * @throws {409} - If username is already taken
+ * @throws {400} - If password or username is not in correct format
+ *
+ */
+router.post(
+  '/alias',
+  [
+    userValidator.isUserLoggedIn,
+    userValidator.isValidUsername,
+    userValidator.isUsernameNotAlreadyInUse,
+    userValidator.isValidPassword
+    //TODO need to add isValidAliasParams
+    //TODO need to add isNotMaxAliasesReached
+  ],
+  async (req: Request, res: Response) => {
+    let username = req.body.username
+    let password = req.body.password
+    let name = req.body.name ?? null
+    let rootUserId = req.session.userId
+    let rootUser = await UserCollection.findOneByUserId(rootUserId);
+    let rootUsername = rootUser.username
+    let phoneNumber = req.body.phoneNumber ?? null //TODO: see how to check phone number exists for root User
+    const user = await UserCollection.addOne(username, password, name, rootUserId, rootUsername, phoneNumber);
+    req.session.userId = user._id.toString();
+    res.status(201).json({
+      message: `Your alias account was created successfully. You have been logged in as ${user.username}`,
+      user: util.constructUserResponse(user)
+    });
+  }
+);
+
+/**
+ * Get all of a user's aliases.
+ *
+ * @name PUT /api/users/alias
+
+ */
+router.put(
+  '/alias',
+  [
+    userValidator.isUserLoggedIn,
+  ],
+  async (req: Request, res: Response) => {
+    console.log('here');
+    let aliases = await UserCollection.findAllByRootUser(req.session.userId);
+
+    res.status(200).json({
+      message: 'You found your aliases.',
+      aliases: aliases
+    });
+  }
+);
+
+
+/**
+ * Update a user's permissions. TODO
+ *
+ * @name PUT /api/users/permissions
+ *
+ * @param {string} permissions - The user's new permissions
+ * @return {UserResponse} - The updated user
+ * @throws {403} - If user is not logged in
+ * @throws {409} - If username already taken
+ * @throws {400} - If username or password are not of the correct format
+ */
+router.put(
+  '/',
+  [
+    userValidator.isUserLoggedIn,
+  ],
+  async (req: Request, res: Response) => {
+    const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
+    let currentUser = await UserCollection.findOneByUserId(userId);
+    console.log(currentUser.permissions)
+    // user.permissions.get('max_breakdowns') = user.permissions.get('max_breakdowns') + 10; //TODO Later: update based on freet count & follower count
+    const user = await UserCollection.updateOne(userId, {'permissions': currentUser.permissions});
+    res.status(200).json({
+      message: 'Your permissions were updated successfully.',
+      user: util.constructUserResponse(user)
+    });
+  }
+);
+//TODO: make gui for this
+
+/**
+ * Update a user's permissions. TODO
+ *
+ * @name PUT /api/users/permissions
+ *
+ * @param {string} permissions - The user's new permissions
+ * @return {UserResponse} - The updated user
+ * @throws {403} - If user is not logged in
+ * @throws {409} - If username already taken
+ * @throws {400} - If username or password are not of the correct format
+ */
+router.put(
+  '/features',
+  [
+    userValidator.isUserLoggedIn,
+  ],
+  async (req: Request, res: Response) => {
+    const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
+    let currentUser = await UserCollection.findOneByUserId(userId);
+    let date = new Date()
+    let newAccessKey = currentUser.username + date.toString()
+
+    // user.permissions.get('max_breakdowns') = user.permissions.get('max_breakdowns') + 10; //TODO Later: update based on freet count & follower count
+    const user = await UserCollection.updateOne(userId, {'accessKey': newAccessKey});
+    res.status(200).json({
+      message: `Your access key was updated successfully to ${newAccessKey}`,
+      user: util.constructUserResponse(user)
+    });
+    //TODO: get it to update access keys of all circles and freets
   }
 );
 

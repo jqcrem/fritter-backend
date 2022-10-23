@@ -1,4 +1,4 @@
-import type {HydratedDocument} from 'mongoose';
+import type {HydratedDocument, Schema} from 'mongoose';
 import moment from 'moment';
 import type {User} from './model';
 
@@ -7,6 +7,8 @@ type UserResponse = {
   _id: string;
   username: string;
   dateJoined: string;
+  password: string;
+  permissions: Schema.Types.Map;
 };
 
 /**

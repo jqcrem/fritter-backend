@@ -80,7 +80,7 @@ isUserLoggedIn():
 isUserLoggedOut()
 	return bool(session.userID is None)
 	
-isNotMaxAliases()
+isNotMaxAliasesReached()
 	currentAccount = users.findOneByUserID(_id: req.session.userId)
 	aliases = users.findAliases(_id: req.session.userId)
 	return currentAccount.permissions['max_aliases'] < len(aliases)
@@ -100,6 +100,14 @@ isNewRootAccountValid():
 
 isCurrentSessionUserCorrectUser(userId):
 	return req.session.userId == userId
+
+isValidAliasParams(password)
+	userId = req.session.userId
+	user = UserCollection.findOne(id: userId)
+	if user.password != req.body.password:
+		return False
+	if user.phoneNumber == None:
+		return False
 
 isNewAliasAccountValid():
 	
@@ -142,13 +150,13 @@ deleteUser()
 	UserCollection.deleteOne(userId)
 	FreetCollect.ion.deleteMany(userId)
 
-addAlias(newUsername: string, rootPassword: string)
+addAlias(newUsername: string, rootPassword: string) XXX
 	rootUserId = req.session.userId
 	rootUser = UserCollection.findOne(id: rootUserId)
 	rootUsername = rootUser.username
 	UserCollection.addOne(newUsername, rootPassword, rootUserId, rootUsername)
 
-upgradePermissions()
+upgradePermissions() XXX
 	--find freets of user
 	--find followers of user
 	do calculation. 
@@ -162,12 +170,31 @@ updateAccessKey()
 	for user in allAliases:
 		user.accessKey = newAccessKey
 		user.save()
-findAliases()
+
+findAliases() XXX
 	if isCurrentSessionUserCorrectUser:
 
 	userId = req.session.userID
 	users = UserCollection.findAllByRootUser(userId)
 	return [user for user if user.userID != req.session.userId]
+
+VALIDATORS
+addAlias(newUsername: string, rootPassword: string)
+	isUserLoggedIn
+	isValidUsername
+	isUsernameNotAlreadyInUse
+	isValidPassword
+	ADD: 
+	isValidAliasParams
+	isNotMaxAliasesReached
+
+upgradePermissions()
+
+updateAccessKey()
+
+findAliases()
+
+
 	
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::

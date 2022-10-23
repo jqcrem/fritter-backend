@@ -44,6 +44,10 @@ const UserSchema = new Schema({
   // NEW: Permissions on the account
   permissions: {
     type: Schema.Types.Map,
+    of: String,
+    get: function(val: String) {
+      return val;
+    },
     required: true
   },
   // NEW: accessKey is a key that the user can provide to people. Is username+dateLastUpdated
@@ -72,7 +76,11 @@ const UserSchema = new Schema({
     type: String,
     required: false
   }
-});
+}, {
+    toJSON: {
+      getters: true
+    }
+  });
 
 const UserModel = model<User>('User', UserSchema);
 export default UserModel;
