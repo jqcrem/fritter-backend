@@ -21,11 +21,14 @@ class FreetCollection {
    */
   static async addOne(authorId: Types.ObjectId | string, content: string): Promise<HydratedDocument<Freet>> {
     const date = new Date();
+    const user = await UserCollection.findOneByUserId(authorId);
+    const accessKey = user.accessKey;
     const freet = new FreetModel({
       authorId,
       dateCreated: date,
       content,
-      dateModified: date
+      dateModified: date,
+      accessKey
     });
     await freet.save(); // Saves freet to MongoDB
     return freet.populate('authorId');

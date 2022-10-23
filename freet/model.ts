@@ -14,6 +14,7 @@ export type Freet = {
   dateCreated: Date;
   content: string;
   dateModified: Date;
+  accessKey: String;
 };
 
 export type PopulatedFreet = {
@@ -22,6 +23,7 @@ export type PopulatedFreet = {
   dateCreated: Date;
   content: string;
   dateModified: Date;
+  accessKey: string;
 };
 
 // Mongoose schema definition for interfacing with a MongoDB table
@@ -49,61 +51,12 @@ const FreetSchema = new Schema<Freet>({
   dateModified: {
     type: Date,
     required: true
+  },
+  accessKey: {
+    type: String,
+    required: true
   }
 });
 
 const FreetModel = model<Freet>('Freet', FreetSchema);
 export default FreetModel;
-
-/*
-
---ADD
-
-:::::::::::::::
-FREET
-:::::::::::::::
-
-Likes
-Content
-Subfreets
-Ranking
-
-:::::::::::::::
-USER
-:::::::::::::::
-
-Circles
-FreetLimit
-CircleLimit
-Friends
-
-
---MAKE
-
-:::::::::::::::
-FEED
-:::::::::::::::
-
-Order by
-Datespan
-Filters (includes keys from circles, as well as time and date)
-
-q-Delete Feed?
-
-:::::::::::::::
-CIRCLES
-:::::::::::::::
-
-Users
-Roles
-Keys (auto-generated)
-
-q-Should roles be a separate concept?
-
-
-----
-First up: 
--Make circle schema. Easiest to code in a modular way
-
-
-*/
