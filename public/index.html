@@ -8,6 +8,7 @@
   <script src="/scripts/freet.js"></script>
   <script src="/scripts/user.js"></script>
   <script src="/scripts/friend.js"></script>
+  <script src="/scripts/freetBreakdown.js"></script>
   <script src="/scripts/index.js"></script>
 </head>
 
@@ -47,13 +48,23 @@
           <h3>Sign In</h3>
           <div>
             <label for="username">Username:</label>
-            <input id="username" name="username">
+            <input id="username" value="user0" name="username">
           </div>
           <div>
             <label for="password">Password:</label>
-            <input id="password" name="password">
+            <input id="password" value="user0" name="password">
           </div>
           <input type="submit" value="Sign In">
+        </form>
+
+
+        <form id="create-new-freet-breakdown">
+          <h3>Create New Freet Breakdown</h3>
+          <div>
+            <label for="contents">Contents (as list):</label>
+            <input id="contents" value='["a", "b", "c"]' name="contents">
+          </div>
+          <input type="submit" value="Create">
         </form>
 
         <form id="get-aliases">

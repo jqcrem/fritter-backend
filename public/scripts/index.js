@@ -44,6 +44,7 @@ const formsAndHandlers = {
   'update-friend': updateFriend,
   'get-aliases': getMyAliases,
   'update-access-key': updateAccessKey,
+  'create-new-freet-breakdown': createNewFreetBreakdown,
 };
 
 // Attach handlers to forms
