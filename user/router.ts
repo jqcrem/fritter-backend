@@ -82,7 +82,9 @@ router.post(
     userValidator.isUserLoggedOut,
     userValidator.isValidUsername,
     userValidator.isUsernameNotAlreadyInUse,
-    userValidator.isValidPassword
+    userValidator.isValidPassword 
+    //TODO need to add: isValidPhoneNumber
+    //TODO need to add: isValidName
   ],
   async (req: Request, res: Response) => {
     let username = req.body.username
@@ -95,6 +97,45 @@ router.post(
     req.session.userId = user._id.toString();
     res.status(201).json({
       message: `Your account was created successfully. You have been logged in as ${user.username}`,
+      user: util.constructUserResponse(user)
+    });
+  }
+);
+
+/**
+ * Create a user alias account.
+ *
+ * @name POST /api/users/alias
+ *
+ * @param {string} password - user's password
+ * @return {UserResponse} - The created user
+ * @throws {403} - If user is logged out
+ * @throws {409} - If username is already taken
+ * @throws {400} - If password or username is not in correct format
+ *
+ */
+router.post(
+  '/alias',
+  [
+    userValidator.isUserLoggedIn,
+    userValidator.isValidUsername,
+    userValidator.isUsernameNotAlreadyInUse,
+    userValidator.isValidPassword
+    //TODO need to add isValidPasswordForAlias
+    //TODO need to add isMaxAliasesReached
+  ],
+  async (req: Request, res: Response) => {
+    let username = req.body.username
+    let password = req.body.password
+    let name = req.body.name ?? null
+    let rootUserId = req.session.userId
+    let rootUser = await UserCollection.findOneByUserId(rootUserId);
+    let rootUsername = rootUser.username
+    let phoneNumber = req.body.phoneNumber ?? null //TODO: see how to check phone number exists for root User
+    const user = await UserCollection.addOne(username, password, name, rootUserId, rootUsername, phoneNumber);
+    req.session.userId = user._id.toString();
+    res.status(201).json({
+      message: `Your alias account was created successfully. You have been logged in as ${user.username}`,
       user: util.constructUserResponse(user)
     });
   }

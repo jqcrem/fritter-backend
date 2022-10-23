@@ -14,6 +14,12 @@ export type User = {
   username: string;
   password: string;
   dateJoined: Date;
+  permissions: Schema.Types.Map;
+  accessKey: string;
+  name?: string;
+  rootUserId?: Schema.Types.ObjectId;
+  rootUsername?: string;
+  phoneNumber?: string;
 };
 
 // Mongoose schema definition for interfacing with a MongoDB table
@@ -35,17 +41,6 @@ const UserSchema = new Schema({
     type: Date,
     required: true
   },
-  // NEW: The root user connected to this account
-  rootUserId: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: false
-  },
-  // NEW: The root username 
-  rootUsername: {
-    type: String,
-    required: false
-  },
   // NEW: Permissions on the account
   permissions: {
     type: Schema.Types.Map,
@@ -58,6 +53,17 @@ const UserSchema = new Schema({
   },
   //NEW: name is the actual name of the user
   name: {
+    type: String,
+    required: false
+  },
+  // NEW: The root user connected to this account
+  rootUserId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: false
+  },
+  // NEW: The root username 
+  rootUsername: {
     type: String,
     required: false
   },

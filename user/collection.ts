@@ -22,7 +22,7 @@ class UserCollection {
                       password: string, 
                       name: string | null, 
                       rootUserId: Types.ObjectId | null, 
-                      rootUsername: Types.ObjectId | null, 
+                      rootUsername: string | null, 
                       phoneNumber: string | null): Promise<HydratedDocument<User>> {
     const dateJoined = new Date();
     var accessKey = username + dateJoined.toString()
@@ -106,6 +106,32 @@ class UserCollection {
     const user = await UserModel.deleteOne({_id: userId});
     return user !== null;
   }
+
+  /**
+   * Find a user by rootUser (user id).
+   *
+   * @param {string} username - The username of the user to find
+   * @return {Promise<HydratedDocument<User>> | Promise<null>} - The user with the given rootUserId, if any
+   */
+  static async findAllByRootUser(id: Types.ObjectId): Promise<Array<HydratedDocument<User>>> {
+    return UserModel.find({
+      rootUserId: id,
+    });
+  }
+
+    /**
+   * Find a user by phone number.
+   *
+   * @param {string} phoneNumber - The phone number of the user to find
+   * @param {string} password - The password of the user to find
+   * @return {Promise<HydratedDocument<User>> | Promise<null>} - The user with the given username, if any
+   */
+  static async findOneByPhoneNumber(phoneNumber: string): Promise<HydratedDocument<User>> {
+    return UserModel.findOne({ //TODO: make it so phone number is interpreted
+      phoneNumber: phoneNumber,
+    });
+  }
+
 }
 
 export default UserCollection;

@@ -20,6 +20,7 @@
     <section id="operations-container">
       <h2>Operations:</h2>
       <div class="scrollbox">
+        
         <form id="create-user">
           <h3>Create User</h3>
           <div>
@@ -31,7 +32,38 @@
             <input id="username" name="username">
           </div>
           <div>
+            <label for="phoneNumber">Phone Number:</label>
+            <input id="phoneNumber" name="phoneNumber">
+          </div>
+          <div>
+          <div>
             <label for="password">Password:</label>
+            <input id="password" name="password">
+          </div>
+          <input type="submit" value="Create User">
+        </form>
+
+        <form id="sign-in">
+          <h3>Sign In</h3>
+          <div>
+            <label for="username">Username:</label>
+            <input id="username" name="username">
+          </div>
+          <div>
+            <label for="password">Password:</label>
+            <input id="password" name="password">
+          </div>
+          <input type="submit" value="Sign In">
+        </form>
+
+        <form id="create-alias">
+          <h3>Sign In</h3>
+          <div>
+            <label for="username">Alias Username:</label>
+            <input id="username" name="username">
+          </div>
+          <div>
+            <label for="password">Current User Password:</label>
             <input id="password" name="password">
           </div>
           <input type="submit" value="Create User">
@@ -58,19 +90,6 @@
             <input id="password" name="password">
           </div>
           <input type="submit" value="Change Password">
-        </form>
-
-        <form id="sign-in">
-          <h3>Sign In</h3>
-          <div>
-            <label for="username">Username:</label>
-            <input id="username" name="username">
-          </div>
-          <div>
-            <label for="password">Password:</label>
-            <input id="password" name="password">
-          </div>
-          <input type="submit" value="Sign In">
         </form>
 
         <form id="sign-out">

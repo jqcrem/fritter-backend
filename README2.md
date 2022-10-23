@@ -136,11 +136,18 @@ createUserAccount(username: string, password: string, name: string, phoneNumber,
 
 
 updateUserProfile(username: string, password: string, newUsername: string, newPassword: string)
+
 deleteUser()
 	if isUserLoggedIn
 	UserCollection.deleteOne(userId)
 	FreetCollect.ion.deleteMany(userId)
-addAlias(username, rootUsername, rootPassword, rootUserId)
+
+addAlias(newUsername: string, rootPassword: string)
+	rootUserId = req.session.userId
+	rootUser = UserCollection.findOne(id: rootUserId)
+	rootUsername = rootUser.username
+	UserCollection.addOne(newUsername, rootPassword, rootUserId, rootUsername)
+
 upgradePermissions()
 	--find freets of user
 	--find followers of user
