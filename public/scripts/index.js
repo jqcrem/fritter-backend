@@ -45,6 +45,10 @@ const formsAndHandlers = {
   'get-aliases': getMyAliases,
   'update-access-key': updateAccessKey,
   'create-new-freet-breakdown': createNewFreetBreakdown,
+  'view-all-freet-breakdowns': viewAllFreetBreakdowns,
+  'delete-freet-breakdown': deleteFreetBreakdown,
+  'add-content-to-freet-breakdown': addContentToFreetBreakdown,
+  'delete-freet-from-freet-breakdown': deleteFreetFromFreetBreakdown,
 };
 
 // Attach handlers to forms

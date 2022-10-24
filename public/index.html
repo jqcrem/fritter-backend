@@ -21,28 +21,6 @@
     <section id="operations-container">
       <h2>Operations:</h2>
       <div class="scrollbox">
-        
-        <form id="create-user">
-          <h3>Create User</h3>
-          <div>
-            <label for="name">Name:</label>
-            <input id="name" name="name">
-          </div>
-          <div>
-            <label for="username">Username:</label>
-            <input id="username" name="username">
-          </div>
-          <div>
-            <label for="phoneNumber">Phone Number:</label>
-            <input id="phoneNumber" name="phoneNumber">
-          </div>
-          <div>
-          <div>
-            <label for="password">Password:</label>
-            <input id="password" name="password">
-          </div>
-          <input type="submit" value="Create User">
-        </form>
 
         <form id="sign-in">
           <h3>Sign In</h3>
@@ -67,6 +45,44 @@
           <input type="submit" value="Create">
         </form>
 
+        <form id="view-all-freet-breakdowns">
+          <h3>View All FreetBreakdowns</h3>
+          <input type="submit" value="View All">
+        </form>
+
+        <form id="delete-freet-breakdown">
+          <h3>Delete Freet Breakdown</h3>
+            <label for="freetBreakdownId">FreetBreakdownId</label>
+            <input id="freetBreakdownId" name="freetBreakdownId">
+          <input type="submit" value="Delete">
+        </form>
+
+        <form id="add-content-to-freet-breakdown">
+          <h3>Add Content To Freet Breakdown</h3>
+            <label for="freetBreakdownId">FreetBreakdownId</label>
+            <input id="freetBreakdownId" value="63559af99cd87ef0c696e6e6" name="freetBreakdownId">
+
+            <label for="content">Content</label>
+            <input id="content" name="content">
+
+            <label for="location">Location</label>
+            <input id="location" name="location">
+
+          <input type="submit" value="Add Content">
+        </form>
+
+        <form id="delete-freet-from-freet-breakdown">
+          <h3>Add Content To Freet Breakdown</h3>
+            <label for="freetBreakdownId">FreetBreakdownId</label>
+            <input id="freetBreakdownId" value = "63559af99cd87ef0c696e6e6" name="freetBreakdownId">
+
+            <label for="freetId">Freet Id</label>
+            <input id="freetId" name="freetId">
+
+          <input type="submit" value="Delete">
+        </form>
+
+
         <form id="get-aliases">
           <h3>Get Aliases</h3>
           <input type="submit" value="Get Aliases">
@@ -79,7 +95,7 @@
 
 
         <form id="create-alias">
-          <h3>Sign In</h3>
+          <h3>Make a new Alias</h3>
           <div>
             <label for="username">Alias Username:</label>
             <input id="username" name="username">
@@ -94,6 +110,28 @@
         <form id="delete-user">
           <h3>Delete User</h3>
           <input type="submit" value="Delete User">
+        </form>
+
+        <form id="create-user">
+          <h3>Create User</h3>
+          <div>
+            <label for="name">Name:</label>
+            <input id="name" name="name">
+          </div>
+          <div>
+            <label for="username">Username:</label>
+            <input id="username" name="username">
+          </div>
+          <div>
+            <label for="phoneNumber">Phone Number:</label>
+            <input id="phoneNumber" name="phoneNumber">
+          </div>
+          <div>
+          <div>
+            <label for="password">Password:</label>
+            <input id="password" name="password">
+          </div>
+          <input type="submit" value="Create User">
         </form>
 
         <form id="change-username">

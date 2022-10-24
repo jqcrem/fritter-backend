@@ -297,24 +297,24 @@ dateModified: datetime
 freets: list[]-> Freet
 
 ACTIONS
-addOne(authorID: ObjectID, freets:[]->freetId)
+addOne(authorID: ObjectID, freets:[]->freetId) XXX
 	freetBreakdown = new FreetBreakdownModel({authorID: authorID, freets: freets})
 	freetBreakdown.save()
 
-findOne(freetBreakdownID: ObjectId)
+findOne(freetBreakdownID: ObjectId) XXX
 	return FreetBreakdownModel.findOne(_id: freetBreakdownID)
 
 findAll()
 	return FreetBreakdownModel.find()
 
-findAllByUserID(userID: objectID)
+findAllByUserID(userID: objectID) XXX
 	return FreetBreakdownModel.find(authorID: user.id)
 
-findAllByUsername(username: string)
+findAllByUsername(username: string) XXX
 	user = UserCollection.findOneByUsername(username)
 	return FreetBreakdownModel.find(authorID: user.id)
 
-updateOne(freetBreakdownId: ObjectId, freets:[]->freetId)
+updateOne(freetBreakdownId: ObjectId, freets:[]->freetId) XXX
 	freetBreakdown = FreetBreakdownModel.findOne(_id: freetBreakdownID)
 	freetBreakdown.freets = freets
 	freetBreakdown.save()
@@ -351,17 +351,20 @@ isFreetInBreakdown(freetBreakdownID, freetID)
 	
 
 ROUTES
-deleteFreet(freetBreakdownID):
+deleteFreetBreakdown(freetBreakdownID): XXX
+	freetBreakdown = freetBreakdownCollection.find(freetBreakdownId)
+	for freetId in freetBreakdown.freets:
+		FreetCollection.deleteOne(freetId)
 	return FreetBreakdownCollection.deleteOne(freetBreakdownID)
 
-getAllFreetBreakdowns()
+getAllFreetBreakdowns() XXX
 	return FreetBreakdownCollection.findAll()
 
-getAllMyFreetBreakdowns()
+getFreetBreakdownsByUser() XXX
 	userID = req.session.userID
 	return FreetBreakdownCollection.findAllByUserID(userID)
 
-createNewFreetBreakdown(authorID: ObjectID, contents: [] -> string)
+createNewFreetBreakdown(authorID: ObjectID, contents: [] -> string) XXX
 	freet_ids = []
 	for content in contents:
 		freet = new Freet({authorID: authorID, content: content})
@@ -369,7 +372,7 @@ createNewFreetBreakdown(authorID: ObjectID, contents: [] -> string)
 		freet_ids.append(freet.id)
 	return FreetBreakdownCollection.addOne(authorID: authorID, freets: freet_ids)
 
-addNewContentToBreakdown(freetBreakdownID: ObjectID, content: string, location: int)
+addNewContentToBreakdown(freetBreakdownID: ObjectID, content: string, location: int) XXX
 	freetBreakdown = FreetBreakdownCollection.findOne(freetBreakdownID: freetBreakdownID)
 
 	freet = new Freet({authorID: authorID, content: content})
@@ -384,7 +387,7 @@ addNewFreetToBreakdown(freetBreakdownID: ObjectID, freetID: ObjectId, location: 
 	freetBreakdown.freets.insert(freetID, location)
 	freetBreakdown.save()
 	
-
+OPTIONAL:
 mergeFreetBreakdowns(freetBreakdownIDs: [] -> ObjectID)
 	freetBreakdowns = []
 	for freetBreakdownID in freetBreakdownIDs:
@@ -397,13 +400,13 @@ mergeFreetBreakdowns(freetBreakdownIDs: [] -> ObjectID)
 	for freetBreakdown in freetBreakdowns[1:]:
 		FreetCollection.deleteOne(freetBreakdown._id)
 
-removeFreet(freetBreakdownID: ObjectID, freetID: ObjectID)
+removeFreet(freetBreakdownID: ObjectID, freetID: ObjectID) XXX
 	freetBreakdown = FreetBreakdownCollection.findOne(freetBreakdownID)
 	freetBreakdown.freets.remove(freetID)
 	FreetCollection.deleteOne(freetID)
 	freetBreakdown.save()
 	
-
+OPTIONAL:
 rearrangeFreet(freetBreakdownID, freetID: ObjectID, location: int)
 	freet = FreetCollection.findOne(freetID)
 	FreetBreakdownCollection.removeFreet(freetBreakdownID, freetID)

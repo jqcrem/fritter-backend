@@ -21,6 +21,7 @@ class FreetCollection {
    */
   static async addOne(authorId: Types.ObjectId | string, content: string): Promise<HydratedDocument<Freet>> {
     const date = new Date();
+    console.log("HEREE");
     const user = await UserCollection.findOneByUserId(authorId);
     const accessKey = user.accessKey;
     const freet = new FreetModel({
