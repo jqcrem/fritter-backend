@@ -10,8 +10,8 @@ import type {User} from '../user/model';
 // Type definition for Friend on the backend
 export type Friend = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
-  UserA: Types.ObjectId;
-  UserB: Types.ObjectId;
+  userA: Types.ObjectId;
+  userB: Types.ObjectId;
   status: string; //Status is "FOLLOWER", "FOLLOWING", or "BLOCKED"
 };
 
@@ -20,13 +20,13 @@ export type Friend = {
 // type given by the type property, inside MongoDB
 const FriendSchema = new Schema<Friend>({
   // The author userId
-  UserA: {
+  userA: {
     // Use Types.ObjectId outside of the schema
     type: Schema.Types.ObjectId,
     required: true,
     ref: 'User'
   },
-  UserB: {
+  userB: {
     // Use Types.ObjectId outside of the schema
     type: Schema.Types.ObjectId,
     required: true,

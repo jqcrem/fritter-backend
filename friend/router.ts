@@ -37,35 +37,45 @@ const router = express.Router();
 //   }
 // );
 
-/**
- * Create a new freet.
- *
- * @name POST /api/freets
- *
- * @param {string} content - The content of the freet
- * @return {FreetResponse} - The created freet
- * @throws {403} - If the user is not logged in
- * @throws {400} - If the freet content is empty or a stream of empty spaces
- * @throws {413} - If the freet content is more than 140 characters long
- */
+//Get followers/following/etc
+router.get(
+  '/:status',
+  [
+    userValidator.isUserLoggedIn,
+    // freetValidator.isFreetExists,
+    // freetValidator.isValidFreetModifier,
+    // freetValidator.isValidFreetContent
+  ],
+  async (req: Request, res: Response) => {
+    const friends = await FriendCollection.findAllFriendsByStatus(req.session.userId, req.params.status);
+    // const response = friends.map(util.constructFriendResponse);
+    res.status(200).json({
+      message: `Your friends are below, ${(req.session.userId as string)}`,
+      response: friends,
+    });
+  }
+);
+
+//Friend someone
 router.post(
   '/',
   [
     friendValidator.isValidUserID,
     friendValidator.notReflexiveFriending,
-    friendValidator.statusValid
+    // friendValidator.statusValid
     // userValidator.isUserLoggedIn,
     // freetValidator.isValidFreetContent
   ],
   async (req: Request, res: Response) => {
     console.log('got hereee');
-    const UserA = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
-    const UserB  = (req.body.UserB as string) ?? '';  
-    const status = (req.body.status as string) ?? '';
-    const friend = await FriendCollection.addOne(UserA, UserB, status);
+    const userA = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
+    const userB  = (req.body.userB as string) ?? '';  
+    const followerRel = await FriendCollection.addOne(userA, userB, "FOLLOWING");
+    const followingRel = await FriendCollection.addOne(userB, userA, "FOLLOWER");
 
     res.status(201).json({
-      message: 'Your friend was created successfully.'
+      message: 'Your friend was created successfully.',
+      response: [followerRel, followingRel]
     });
   }
 );
@@ -84,21 +94,68 @@ router.post(
 //  * @throws {400} - If the freet content is empty or a stream of empty spaces
 //  * @throws {413} - If the freet content is more than 140 characters long
 //  */
+
+//BLOCK SOMEONE
 router.put(
-  '/:friendID?',
+  '/:userBId?',
   [
     userValidator.isUserLoggedIn,
-    friendValidator.statusValid,
+    // friendValidator.statusValid,
     // freetValidator.isFreetExists,
     // freetValidator.isValidFreetModifier,
     // freetValidator.isValidFreetContent
   ],
   async (req: Request, res: Response) => {
-    const friend = await FriendCollection.updateOne(req.params.friendID, req.body.status);
+    const followingRel = await FriendCollection.updateOneByPair(req.session.userId, req.params.userBId, "FOLLOWER", "BLOCKED");
+    const followerRel = await FriendCollection.updateOneByPair(req.params.userBId, req.session.userId, "FOLLOWING", "BLOCKED");
     res.status(200).json({
       message: 'Your friend was updated successfully.',
+      response: [followingRel, followerRel]
     });
   }
 );
+
+//UNBLOCK SOMEONE
+router.put(
+  '/un/:userBId?',
+  [
+    userValidator.isUserLoggedIn,
+    // friendValidator.statusValid,
+    // freetValidator.isFreetExists,
+    // freetValidator.isValidFreetModifier,
+    // freetValidator.isValidFreetContent
+  ],
+  async (req: Request, res: Response) => {
+    const followingRel = await FriendCollection.updateOneByPair(req.session.userId, req.params.userBId, "BLOCKED", "FOLLOWER");
+    const followerRel = await FriendCollection.updateOneByPair(req.params.userBId, req.session.userId, "BLOCKED", "FOLLOWING");
+    res.status(200).json({
+      message: 'Your friend was updated successfully.',
+      response: [followingRel, followerRel]
+    });
+  }
+);
+
+//Unfollow someone
+router.delete( //SOMETHING WRONG WHERE UNFOLLOW DOESN'T UNFOLLOW. TRY LATER
+  '/un/:userBId?',
+  [
+    userValidator.isUserLoggedIn,
+    // friendValidator.statusValid,
+    // freetValidator.isFreetExists,
+    // freetValidator.isValidFreetModifier,
+    // freetValidator.isValidFreetContent
+  ],
+  async (req: Request, res: Response) => {
+    console.log(req.params.userBId);
+    const followingRes = await FriendCollection.deleteOneByPairAndStatus(req.session.userId, req.params.userBId, "FOLLOWING");
+    const followerRes = await FriendCollection.deleteOneByPairAndStatus(req.params.userBId, req.session.userId, "FOLLOWER");
+    res.status(200).json({
+      message: 'Your friend was updated successfully.',
+      response: [followingRes, followerRes]
+    });
+  }
+);
+
+
 
 export {router as friendRouter};

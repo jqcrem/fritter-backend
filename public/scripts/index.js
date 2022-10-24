@@ -29,6 +29,13 @@ function showResponse(response) {
 // Map form (by id) to the function that should be called on submit
 const formsAndHandlers = {
   'create-user': createUser,
+  'get-all-users': getAllUsers,
+  'get-all-followers': getAllFollowers,
+  'get-all-following': getAllFollowing,
+  'get-all-blocked': getAllBlocked,
+  'block-user': blockUser,
+  'unblock-user': unblockUser,
+  'unfollow-user': unfollowUser,
   'create-alias': createAlias,
   'delete-user': deleteUser,
   'change-username': changeUsername,
@@ -40,7 +47,7 @@ const formsAndHandlers = {
   'create-freet': createFreet,
   'edit-freet': editFreet,
   'delete-freet': deleteFreet,
-  'add-friend': addFriend,
+  'follow-friend': followFriend,
   'update-friend': updateFriend,
   'get-aliases': getMyAliases,
   'update-access-key': updateAccessKey,

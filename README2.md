@@ -427,7 +427,7 @@ addOne(userA: ObjectID, userB: ObjectID, status: string)
 	friend = new FriendModel(userA: userA, userB: userB, status: status) // Means userA is following userB
 	friend.save()
 
-updateOne(friendshipID: objectID, details: json)
+updateOne(friendshipID: objectID, details: json) XXX
 	friendship = FriendModel.findOne(_id: friendshipID)
 	if 'userA' in details:
 		friendship.userA = details.userA
@@ -437,14 +437,14 @@ updateOne(friendshipID: objectID, details: json)
 		friendship.status = details.status
 	friendship.save()
 
-deleteOne(friendshipID: objectID)
+deleteOne(friendshipID: objectID) XXX
 	friend = FriendModel.deleteOne(friendshipID)
 
-findFriendshipByPair(userA: objectID, userB: objectID, status: string)
+findFriendshipByPair(userA: objectID, userB: objectID, status: string) XXX
 	friend = FriendModel.find({userA: userA, userB: userB})
 	return friend
 
-findAllFriendsByStatus(userID: objectID, status: string):
+findAllFriendsByStatus(userID: objectID, status: string): XXX
 	return FriendModel.find(userA: userID, status: status)
 
 findManyByFilter(filter: json)
@@ -489,12 +489,12 @@ isFriendMyFriendWithThiStatus(userB, status)
 	
 
 ROUTES
-follow(UserID: ObjectID)
+follow(UserID: ObjectID) XXX
 	userA = req.session.userID
 	FriendCollection.addOne(userA, UserID, "FOLLOWING") // means userA is following userB
 	FriendCollection.addOne(UserID, userA, "FOLLOWER") // means userA is a follower of userB
 
-unfollow(UserID: ObjectID)
+unfollow(UserID: ObjectID) XXXX -- some problems that need fixing
 	userA = req.session.userID
 	userB = userID
 	followingFriendship = findFriendshipByPair(userA, userB, "FOLLOWING")
@@ -507,7 +507,7 @@ unfollow(UserID: ObjectID)
 		circle.members.remove(userA)
 		CircleCollection.updateOne(circle.id, {'members': members})
 
-block(UserID: ObjectID)
+block(UserID: ObjectID) XXX
 	userA = req.session.userID
 	userB = UserID
 	followingFriendship = findFriendshipByPair(userB, userA, "FOLLOWING") //Note that order is switched here
@@ -515,17 +515,19 @@ block(UserID: ObjectID)
 	FriendCollection.updateOne(followingFriendship.id, "BLOCKED")
 	FriendCollection.updateOne(followerFriendship.id, "BLOCKED")
 	
-findAllFollowers()
+findAllFollowers() XXX
 	userA = req.session.userID
 	return FriendCollection.FindAllFriendsByStatus(UserID: userA, status: "FOLLOWER")
 
-findAllFollowing()
+findAllFollowing() XXX
 	userA = req.session.userID
 	return FriendCollection.FindAllFriendsByStatus(UserID: userA, status: "FOLLOWING")
 
-findAllBlocked()
+findAllBlocked() XXX
 	userA = req.session.userID
 	return FriendCollection.FindAllFriendsByStatus(UserID: userA, status: "BLOCKED")
+
+unblock() XXX
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::

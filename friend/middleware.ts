@@ -46,13 +46,13 @@ import UserCollection from '../user/collection';
  * */
 
  const isValidUserID = async (req: Request, res: Response, next: NextFunction) => {
-    if (!Types.ObjectId.isValid(req.body.UserB)){
+    if (!Types.ObjectId.isValid(req.body.userB)){
       res.status(400).json({
-        error: 'ObjectId is not valid. Must be a string of 12 characters'
+        error: `ObjectId is not valid. Must be a string of 12 characters. Currently is ${req.body.userB}`
       })
       return;
     }
-    const user = await UserCollection.findOneByUserId(req.body.UserB);
+    const user = await UserCollection.findOneByUserId(req.body.userB);
     if (!user){
       res.status(404).json({
         error: 'User you are trying to friend does not exist'
@@ -63,7 +63,7 @@ import UserCollection from '../user/collection';
  }
 
  const notReflexiveFriending = async (req: Request, res: Response, next: NextFunction) => {
-  if ((req.body.UserB as string) === (req.session.userId as string)){
+  if ((req.body.userB as string) === (req.session.userId as string)){
     res.status(400).json({
       error: 'User cannot friend himself'
     })

@@ -19,26 +19,50 @@ class FriendCollection {
    * @param {string} content - The id of the content of the freet
    * @return {Promise<HydratedDocument<Freet>>} - The newly created freet
    */
-  static async addOne(UserA: Types.ObjectId | string, UserB: Types.ObjectId | string, status: string): Promise<HydratedDocument<Friend>> {
-    console.log("got here");
+  static async addOne(userA: Types.ObjectId | string, userB: Types.ObjectId | string, status: string): Promise<HydratedDocument<Friend>> {
     const friend = new FriendModel({
-      UserA,
-      UserB,
+      userA,
+      userB,
       status,
     });
-    console.log('new friend');
     await friend.save(); // Saves freet to MongoDB
-    console.log('saved');
-    return friend.populate('UserA');
+    return friend.populate('userA');
   }
 
   static async updateOne(friendID: Types.ObjectId | string, status: string): Promise<HydratedDocument<Friend>> {
     const friend = await FriendModel.findOne({_id: friendID});
     friend.status = status;
     await friend.save();
-    return friend.populate('UserA');
+    return friend.populate('userA');
   }
 
+  static async updateOneByPair(userA: Types.ObjectId | string, userB: Types.ObjectId | string, status: string, newstatus: string): Promise<HydratedDocument<Friend>> {
+    const updateResult = await FriendModel.updateOne({userA, userB, status}, {status: newstatus});
+    const friend = await FriendModel.findOne({userA, userB, status: newstatus});
+    return friend;
+  }
+
+  static async deleteOne(friendID: Types.ObjectId | string): Promise<boolean> {
+    let result = FriendModel.deleteOne({_id: friendID});
+    return result !== null;
+  }
+
+  static async deleteOneByPairAndStatus(userA: Types.ObjectId | string, userB: Types.ObjectId | string, status: string): Promise<boolean> {
+    let result = FriendModel.deleteOne({userA, userB, status});
+    return result !== null;
+  }
+
+  static async findFriendByPairAndStatus(userA: Types.ObjectId | string, userB: Types.ObjectId | string, status: string): Promise<HydratedDocument<Friend>>{
+    return FriendModel.findOne({userA, userB, status});
+  }
+
+  static async findFriendByPair(userA: Types.ObjectId | string, userB: Types.ObjectId | string): Promise<HydratedDocument<Friend>> {
+    return FriendModel.findOne({userA, userB})
+  }
+
+  static async findAllFriendsByStatus(userA: Types.ObjectId | string, status: string): Promise<Array<HydratedDocument<Friend>>> {
+    return FriendModel.find({userA: userA, status: status});
+  }
 }
 
 export default FriendCollection;

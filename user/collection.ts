@@ -41,6 +41,11 @@ class UserCollection {
     return user;
   }
 
+  //Find all users
+  static async findAll(): Promise<Array<HydratedDocument<User>>> {
+    return UserModel.find();
+  }
+
   /**
    * Find a user by userId.
    *

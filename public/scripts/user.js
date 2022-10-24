@@ -56,3 +56,9 @@ function updateAccessKey(fields) {
     .then(showResponse)
     .catch(showResponse);
 }
+
+function getAllUsers(fields) {
+  fetch('/api/users')
+    .then(showResponse)
+    .catch(showResponse);
+}
