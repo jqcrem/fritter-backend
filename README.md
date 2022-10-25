@@ -313,3 +313,239 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `403` if the user is not logged in
+
+#### `POST /api/users/alias` - Create a new alias account
+
+**Body**
+
+- `username` _{string}_ - The alias's username
+- `password` _{string}_ - The current user's password
+
+**Returns**
+
+- A success message
+- An objectw ith the created alias's details (without password)
+
+**Throws**
+
+#### `PUT /api/users/alias` - Find all aliases of current user
+
+**Returns**
+
+- A success message
+- An list of user objects which contain all the current user's aliases
+
+**Throws**
+
+#### `PUT /api/users/features` - Update current user's access key
+
+**Returns**
+
+- A success message
+- The current user object with the updated access key
+
+**Throws**
+
+
+#### `GET /api/freetBreakdown` - Get all the freetBreakdowns
+
+
+**Returns**
+
+- A success message
+- All the current freetBreakdowns in the database
+
+**Throws**
+
+#### `POST /api/freetBreakdown` - Create a new freetBreakdown
+
+**Body**
+
+-`contents` _{list}_ A list of strings which will compose the freetBreakdown
+
+**Returns**
+
+- A success message
+- An object with the created freetBreakdown
+
+**Throws**
+
+#### `DELETE /api/freetBreakdown/:freetBreakdownId?` - Delete a freetBreakdown
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+#### `PUT /api/freetBreakdown/modify/:freetBreakdownId?/:freetId?/:location` - Add a freet to a freetBreakdown at a certain location
+
+**Returns**
+
+- A success message
+- An object with the updated freetBreakdown
+
+**Throws**
+
+#### `DELETE /api/freetBreakdown/modify/:freetBreakdownId?/:freetId?` - Delete a freet from a freetBreakdown
+
+**Returns**
+
+- A success message
+- An object with the updated freetBreakdown
+
+**Throws**
+
+#### `PUT /api/freetBreakdown/modifycontent/:freetBreakdownId?` - Add content in the form of a new freet in a certain location in the freetBreakdown
+
+**Body**
+
+-`location` - _{int}_ The location in the freetBreakdown where to add the content
+-`content` - _{string}_ The content to add
+
+**Returns**
+
+- A success message
+- An object with the updated freetBreakdown
+
+**Throws**
+
+#### `GET /api/friend/:status` - Get all friends of current user with certain status
+**Returns**
+
+- A success message
+- An list of objects of the friends of the current user with this status
+
+**Throws**
+
+
+#### `POST /api/friend/` - Follow someone 
+
+**Body**
+-`userB` - _{string}_ The userId of the person you're following 
+
+**Returns**
+
+- A success message
+- An list of objects with the follower Friend object and the followig Friend object
+
+**Throws**
+
+#### `PUT /api/friend/:userBId` - Block a follower
+**Returns**
+
+- A success message
+- An list of updated objects, with the relevant follower Friend object and the followig Friend object
+
+**Throws**
+
+#### `PUT /api/friend/un/:userBId` - Unblock a follower
+**Returns**
+
+- A success message
+- An list of updated objects, with the relevant follower Friend object and the followig Friend object
+
+**Throws**
+
+#### `PUT /api/friend/un/:userBId` - Unfollow someone (delete the Friend document from the collection)
+**Returns**
+
+- A success message
+- An list of booleans which are the results of both delete operations (on the follower Friend and the Following Friend)
+
+**Throws**
+
+#### `GET /api/circle/` - Get all the circles in the collection
+**Returns**
+
+- A success message
+- An list of objects with all  the circles in the collection
+
+**Throws**
+
+#### `POST /api/circle/` - Create a new circle
+**Body**
+-`members` - _{string[]}_ The ids of the members to include in the circle
+-`access` - _{string[]}_ The ids of the aliases to allow the circle members to view
+
+**Returns**
+
+- A success message
+- An object with the circle created
+
+**Throws**
+
+#### `DELETE /api/circle/:circleId?` - Delete a circle
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+
+#### `PUT /api/circle/modifymembers/:circleId?/:userId?` -  Add a user to a circle's membership
+
+**Returns**
+
+- A success message
+- An object with the updated circle
+
+**Throws**
+
+#### `DELETE /api/circle/modifymembers/:circleId?/:userId?` -  Remove a user from a circle's membership
+
+**Returns**
+
+- A success message
+- An object with the updated circle
+
+**Throws**
+
+#### `PUT /api/circle/modifyaccess/:circleId?/:userId?` -  Add an alias to a circle's access
+
+**Returns**
+
+- A success message
+- An object with the updated circle
+
+**Throws**
+
+#### `DELETE /api/circle/modifyaccess/:circleId?/:userId?` -  Remove an alias from a circle's access
+
+**Returns**
+
+- A success message
+- An object with the updated circle
+
+**Throws**
+
+#### `GET /api/circle/modifymyself` -  Get current user's circles
+
+**Returns**
+
+- A success message
+- An array of circles that the current user is in
+
+**Throws**
+
+#### `DELETE /api/circle/modifymyself/:circleId?` -  Leave a circle oneself
+
+**Returns**
+
+- A success message
+- The updated circle that the user has just left
+
+**Throws**
+
+
+
+
+
+
+
+
+
+
+
+

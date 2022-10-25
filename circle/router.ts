@@ -218,10 +218,10 @@ router.get(
   async (req: Request, res: Response) => {
     var myId = req.session.userId;
 
-    const newCircle = await CircleCollection.findAllByMember(myId);
+    const circles = await CircleCollection.findAllByMember(myId);
     res.status(200).json({
       message: 'Your query has been successful.',
-      circle: newCircle
+      circle: circles
     });
   }
 );

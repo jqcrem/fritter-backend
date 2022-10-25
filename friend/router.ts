@@ -8,35 +8,6 @@ import * as userValidator from '../user/middleware';
 
 const router = express.Router();
 
-// /**
-//  * Get all the freets
-//  *
-//  * @name GET /api/freets
-//  *
-//  * @return {FreetResponse[]} - A list of all the freets sorted in descending
-//  *                      order by date modified
-//  */
-// /**
-//  * Get freets by author.
-//  *
-//  * @name GET /api/freets?authorId=id
-//  *
-//  * @return {FreetResponse[]} - An array of freets created by user with id, authorId
-//  * @throws {400} - If authorId is not given
-//  * @throws {404} - If no user has given authorId
-//  *
-//  */
-// router.get(
-//   '/',
-//   [
-//   ],
-//   async (req: Request, res: Response) => {
-//     const authorFreets = await FreetCollection.findAllByUsername(req.query.author as string);
-//     const response = authorFreets.map(util.constructFreetResponse);
-//     res.status(200).json(response);
-//   }
-// );
-
 //Get followers/following/etc
 router.get(
   '/:status',
