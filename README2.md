@@ -565,14 +565,17 @@ deleteOne(circleID: ObjectID)
 findManyByAuthorID(authorID: ObjectID)
 	circles = CircleModel.find('authorID': authorID)
 
+OPTIONAL:
 findManyByAuthorAndAccess(authorID: ObjectID, accessId: ObjectID)
 	circles = CircleModel.find( {'authorID': authorID, 'access': {'contains': accessUser}})
 	return circles
 
+OPTIONAL:
 findOneByAuthorAndAllAccess(authorID: ObjectID, access: [] -> ObjectID)
 	circle = CircleMOdel.find({'authorID': authorID, 'access': access}
 	return circle
 
+OPTIONAL:
 findManyByAuthorAndMember(authorID: ObjectID, memberId: ObjectID)
 	circles = CircleModel.find( {'authorID': authorID, 'members': {'contains': accessUser}})
 	return circles

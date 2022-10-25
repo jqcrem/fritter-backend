@@ -29,6 +29,14 @@ function showResponse(response) {
 // Map form (by id) to the function that should be called on submit
 const formsAndHandlers = {
   'create-user': createUser,
+  'view-all-circles': viewAllCircles,
+  'create-new-circle': createNewCircle,
+  'delete-circle': deleteCircle,
+  'add-user-to-circle': addUserToCircle,
+  'delete-user-from-circle': deleteUserFromCircle,
+  'add-access-to-circle': addAccessToCircle,
+  'delete-access-from-circle': deleteAccessFromCircle,
+  'leave-circle': leaveCircle,
   'get-all-users': getAllUsers,
   'get-all-followers': getAllFollowers,
   'get-all-following': getAllFollowing,

@@ -9,6 +9,7 @@
   <script src="/scripts/user.js"></script>
   <script src="/scripts/friend.js"></script>
   <script src="/scripts/freetBreakdown.js"></script>
+  <script src="/scripts/circle.js"></script>
   <script src="/scripts/index.js"></script>
 </head>
 
@@ -39,6 +40,96 @@
           <h3>Get All Users</h3>
           <input type="submit" value="View All">
         </form>
+
+        <form id="create-new-circle">
+              <h3>Create New Circle</h3>
+          <div>
+            <label for="members">Members (as list):</label>
+            <input id="members" value='["63552575f651b60c086b033d", "63553e8a192210cd850bac2b"]' name="members">
+          </div>
+            <div>
+            <label for="access">Access (as list):</label>
+            <input id="access" value='["635569a78028041364f62833"]' name="access">
+          </div>
+          <input type="submit" value="Create">
+        </form>
+
+        <form id="view-all-circles">
+          <h3>View all Circles</h3>
+          <input type="submit" value="View">
+        </form>
+
+        <form id="add-user-to-circle">
+          <h3>Add User to Circle</h3>
+          <div>
+            <label for="circleId">Circle Id:</label>
+            <input id="circleId" value='635731934e3766057dace000' name="circleId">
+          </div>
+          <div>
+            <label for="userId">User Id:</label>
+            <input id="userId" value='63553e8a192210cd850bac2b' name="userId">
+          </div>
+          <input type="submit" value="Add">
+        </form>
+
+          <form id="delete-user-from-circle">
+          <h3>Delete User from Circle</h3>
+          <div>
+            <label for="circleId">Circle Id:</label>
+            <input id="circleId" value='635731934e3766057dace000' name="circleId">
+          </div>
+          <div>
+            <label for="userId">User Id:</label>
+            <input id="userId" value='63553e8a192210cd850bac2b' name="userId">
+          </div>
+          <input type="submit" value="Delete">
+        </form>
+
+          <form id="add-access-to-circle">
+          <h3>Add Access to Circle</h3>
+          <div>
+            <label for="circleId">Circle Id:</label>
+            <input id="circleId" value='635731934e3766057dace000' name="circleId">
+          </div>
+          <div>
+            <label for="userId">User Id:</label>
+            <input id="userId" value='6357329c05280002235f3045' name="userId">
+          </div>
+          <input type="submit" value="Add">
+        </form>
+
+          <form id="delete-access-from-circle">
+          <h3>Delete Access from Circle</h3>
+          <div>
+            <label for="circleId">Circle Id:</label>
+            <input id="circleId" value='635731934e3766057dace000' name="circleId">
+          </div>
+          <div>
+            <label for="userId">User Id:</label>
+            <input id="userId" value='6357329c05280002235f3045' name="userId">
+          </div>
+          <input type="submit" value="Delete">
+        </form>
+
+        <form id="leave-circle">
+          <h3>Leave circle</h3>
+          <div>
+            <label for="circleId">Circle Id:</label>
+            <input id="circleId" value='' name="circleId">
+          </div>
+          <input type="submit" value="Leave">
+        </form>
+
+
+        <form id="delete-circle">
+          <h3>Delete circle</h3>
+          <div>
+            <label for="circleId">Circle Id:</label>
+            <input id="circleId" value='' name="circleId">
+          </div>
+          <input type="submit" value="Delete">
+        </form>
+
 
 
         <form id="get-all-followers">
