@@ -4,7 +4,7 @@ import express from 'express';
 import FreetCollection from '../freet/collection';
 import CircleCollection from './collection';
 import * as userValidator from '../user/middleware';
-// import * as circleValidator from '../circle/middleware';
+import * as circleValidator from '../circle/middleware';
 import * as freetValidator from '../freet/middleware';
 // import * as util from './util';
 import * as freetUtil from '../freet/util';
@@ -65,7 +65,7 @@ router.post(
   '/',
   [
     userValidator.isUserLoggedIn,
-    // circleValidator.isValidCircleContent
+    circleValidator.isValidCircleContent
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
@@ -94,8 +94,8 @@ router.delete(
   '/:circleId?',
   [
     userValidator.isUserLoggedIn,
-    // circleValidator.isCircleExists,
-    // circleValidator.isValidCircleModifier
+    circleValidator.isCircleExists,
+    circleValidator.isValidCircleModifier
   ],
   async (req: Request, res: Response) => {
     await CircleCollection.deleteOne(req.params.circleId);
@@ -123,10 +123,8 @@ router.put(
   '/modifymembers/:circleId?/:userId?',
   [
     userValidator.isUserLoggedIn,
-    // circleValidator.isCircleExists,
-    // circleValidator.isValidCircleModifier,
-    // circleValidator.isValidCircleContent,
-    // freetValidator.isFreetExists,
+    circleValidator.isCircleExists,
+    circleValidator.isValidCircleModifier,
   ],
   async (req: Request, res: Response) => {
     var circleId = new Types.ObjectId(req.params.circleId);
@@ -145,10 +143,8 @@ router.delete(
   '/modifymembers/:circleId?/:userId?',
   [
     userValidator.isUserLoggedIn,
-    // circleValidator.isCircleExists,
-    // circleValidator.isValidCircleModifier,
-    // circleValidator.isValidCircleContent,
-    // freetValidator.isFreetExists
+    circleValidator.isCircleExists,
+    circleValidator.isValidCircleModifier,
   ],
   async (req: Request, res: Response) => {
     var circleId = new Types.ObjectId(req.params.circleId);
@@ -167,10 +163,8 @@ router.put(
   '/modifyaccess/:circleId?/:userId?',
   [
     userValidator.isUserLoggedIn,
-    // circleValidator.isCircleExists,
-    // circleValidator.isValidCircleModifier,
-    // circleValidator.isValidCircleContent,
-    // freetValidator.isFreetExists,
+    circleValidator.isCircleExists,
+    circleValidator.isValidCircleModifier,
   ],
   async (req: Request, res: Response) => {
     var circleId = new Types.ObjectId(req.params.circleId);
@@ -189,10 +183,8 @@ router.delete(
   '/modifyaccess/:circleId?/:userId?',
   [
     userValidator.isUserLoggedIn,
-    // circleValidator.isCircleExists,
-    // circleValidator.isValidCircleModifier,
-    // circleValidator.isValidCircleContent,
-    // freetValidator.isFreetExists
+    circleValidator.isCircleExists,
+    circleValidator.isValidCircleModifier,
   ],
   async (req: Request, res: Response) => {
     var circleId = new Types.ObjectId(req.params.circleId);
@@ -211,9 +203,6 @@ router.get(
   '/modifymyself',
   [
     userValidator.isUserLoggedIn,
-    // circleValidator.isCircleExists,
-    // circleValidator.isValidCircleModifier,
-    // circleValidator.isValidCircleContent,
   ],
   async (req: Request, res: Response) => {
     var myId = req.session.userId;
@@ -231,9 +220,7 @@ router.delete(
   '/modifymyself/:circleId?',
   [
     userValidator.isUserLoggedIn,
-    // circleValidator.isCircleExists,
-    // circleValidator.isValidCircleModifier,
-    // circleValidator.isValidCircleContent,
+    circleValidator.isCircleExists,
   ],
   async (req: Request, res: Response) => {
     var circleId = new Types.ObjectId(req.params.circleId);

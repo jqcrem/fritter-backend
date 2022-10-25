@@ -13,9 +13,7 @@ router.get(
   '/:status',
   [
     userValidator.isUserLoggedIn,
-    // freetValidator.isFreetExists,
-    // freetValidator.isValidFreetModifier,
-    // freetValidator.isValidFreetContent
+    friendValidator.statusValid,
   ],
   async (req: Request, res: Response) => {
     const friends = await FriendCollection.findAllFriendsByStatus(req.session.userId, req.params.status);
@@ -31,11 +29,10 @@ router.get(
 router.post(
   '/',
   [
-    friendValidator.isValidUserID,
+    userValidator.isUserLoggedIn,
+    friendValidator.isValidUserID,  
     friendValidator.notReflexiveFriending,
-    // friendValidator.statusValid
-    // userValidator.isUserLoggedIn,
-    // freetValidator.isValidFreetContent
+    friendValidator.alreadyFriends,
   ],
   async (req: Request, res: Response) => {
     console.log('got hereee');
@@ -71,10 +68,7 @@ router.put(
   '/:userBId?',
   [
     userValidator.isUserLoggedIn,
-    // friendValidator.statusValid,
-    // freetValidator.isFreetExists,
-    // freetValidator.isValidFreetModifier,
-    // freetValidator.isValidFreetContent
+    friendValidator.canBlock
   ],
   async (req: Request, res: Response) => {
     const followingRel = await FriendCollection.updateOneByPair(req.session.userId, req.params.userBId, "FOLLOWER", "BLOCKED");
@@ -91,10 +85,6 @@ router.put(
   '/un/:userBId?',
   [
     userValidator.isUserLoggedIn,
-    // friendValidator.statusValid,
-    // freetValidator.isFreetExists,
-    // freetValidator.isValidFreetModifier,
-    // freetValidator.isValidFreetContent
   ],
   async (req: Request, res: Response) => {
     const followingRel = await FriendCollection.updateOneByPair(req.session.userId, req.params.userBId, "BLOCKED", "FOLLOWER");
@@ -111,10 +101,6 @@ router.delete( //SOMETHING WRONG WHERE UNFOLLOW DOESN'T UNFOLLOW. TRY LATER
   '/un/:userBId?',
   [
     userValidator.isUserLoggedIn,
-    // friendValidator.statusValid,
-    // freetValidator.isFreetExists,
-    // freetValidator.isValidFreetModifier,
-    // freetValidator.isValidFreetContent
   ],
   async (req: Request, res: Response) => {
     console.log(req.params.userBId);

@@ -1,49 +1,7 @@
 import type {Request, Response, NextFunction} from 'express';
 import {Types} from 'mongoose';
 import UserCollection from '../user/collection';
-// import FreetCollection from '../freet/collection';
-
-// /**
-//  * Checks if a freet with freetId is req.params exists
-//  */
-// const isFreetExists = async (req: Request, res: Response, next: NextFunction) => {
-//   const validFormat = Types.ObjectId.isValid(req.params.freetId);
-//   const freet = validFormat ? await FreetCollection.findOne(req.params.freetId) : '';
-//   if (!freet) {
-//     res.status(404).json({
-//       error: {
-//         freetNotFound: `Freet with freet ID ${req.params.freetId} does not exist.`
-//       }
-//     });
-//     return;
-//   }
-
-//   next();
-// };
-
-// /**
-//  * Checks if the content of the freet in req.body is valid, i.e not a stream of empty
-//  * spaces and not more than 140 characters
-//  */
-// const isValidFreetContent = (req: Request, res: Response, next: NextFunction) => {
-//   const {content} = req.body as {content: string};
-//   if (!content.trim()) {
-//     res.status(400).json({
-//       error: 'Freet content must be at least one character long.'
-//     });
-//     return;
-//   }
-
-//   if (content.length > 140) {
-//     res.status(413).json({
-//       error: 'Freet content must be no more than 140 characters.'
-//     });
-//     return;
-//   }
-
-/**
- * Checks if the objectID of User being friended exists already
- * */
+import FriendCollection from '../friend/collection';
 
  const isValidUserID = async (req: Request, res: Response, next: NextFunction) => {
     if (!Types.ObjectId.isValid(req.body.userB)){
@@ -73,7 +31,7 @@ import UserCollection from '../user/collection';
  }
 
 const statusValid = async (req: Request, res: Response, next: NextFunction) => {
-  if (! ['FOLLOWER', 'FOLLOWING', 'BLOCKED'].includes(req.body.status)){
+  if (! ['FOLLOWER', 'FOLLOWING', 'BLOCKED'].includes(req.params.status)){
     res.status(400).json({
       error: 'Friend status is not valid. Must be either FOLLOWER, FOLLOWING, or BLOCKED'
     })
@@ -83,9 +41,26 @@ const statusValid = async (req: Request, res: Response, next: NextFunction) => {
  }
 
 const alreadyFriends = async (req: Request, res: Response, next: NextFunction) => {
-  if (! ['FOLLOWER', 'FOLLOWING', 'BLOCKED'].includes(req.body.status)){
-    res.status(400).json({
-      error: 'Friend status is not valid. Must be either FOLLOWER, FOLLOWING, or BLOCKED'
+  const userB = req.body.userB
+  const userA = req.session.userId
+  const existingFriendship = FriendCollection.findFriendByPairAndStatus(userA, userB, 'FOLLOWING');
+  if (existingFriendship){
+    res.status(401).json({
+      error: 'Friendship already exists'
+    })
+    return;
+  }
+  next();
+ }
+
+ const canBlock = async (req: Request, res: Response, next: NextFunction) => {
+  const userB = req.body.userB
+  const userA = req.session.userId
+  const existingFriendship = FriendCollection.findFriendByPairAndStatus(userA, userB, 'FOLLOWER');
+  console.log(existingFriendship);
+  if (!existingFriendship){
+    res.status(401).json({
+      error: 'You cannot block this user because they are not following you'
     })
     return;
   }
@@ -93,33 +68,11 @@ const alreadyFriends = async (req: Request, res: Response, next: NextFunction) =
  }
 
 
- //Check for if status is FOLLOWER, FOLLOWING, or BLOCKED
- //Check that user being friended is not current user
- //Check that user being friended is not blocked
-
-//   next();
-// };
-
-// /**
-//  * Checks if the current user is the author of the freet whose freetId is in req.params
-//  */
-// const isValidFreetModifier = async (req: Request, res: Response, next: NextFunction) => {
-//   const freet = await FreetCollection.findOne(req.params.freetId);
-//   const userId = freet.authorId._id;
-//   if (req.session.userId !== userId.toString()) {
-//     res.status(403).json({
-//       error: 'Cannot modify other users\' freets.'
-//     });
-//     return;
-//   }
-
-//   next();
-// };
 
 export {
   isValidUserID,
   notReflexiveFriending,
-  statusValid
-//   isFreetExists,
-//   isValidFreetModifier
+  statusValid,
+  alreadyFriends,
+  canBlock
 };

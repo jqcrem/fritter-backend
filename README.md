@@ -328,6 +328,10 @@ This renders the `index.html` file that will be used to interact with the backen
 
 **Throws**
 
+- `403` if user is not logged in
+- `400` if username or password is in the wrong format
+- `409` if the username is already in use
+
 #### `PUT /api/users/alias` - Find all aliases of current user
 
 **Returns**
@@ -336,6 +340,8 @@ This renders the `index.html` file that will be used to interact with the backen
 - An list of user objects which contain all the current user's aliases
 
 **Throws**
+- `403` if user is not logged in
+
 
 #### `PUT /api/users/features` - Update current user's access key
 
@@ -345,6 +351,9 @@ This renders the `index.html` file that will be used to interact with the backen
 - The current user object with the updated access key
 
 **Throws**
+
+- `403` if user is not logged in
+
 
 
 #### `GET /api/freetBreakdown` - Get all the freetBreakdowns
@@ -356,6 +365,8 @@ This renders the `index.html` file that will be used to interact with the backen
 - All the current freetBreakdowns in the database
 
 **Throws**
+
+- `403` if user is not logged in
 
 #### `POST /api/freetBreakdown` - Create a new freetBreakdown
 
@@ -370,6 +381,9 @@ This renders the `index.html` file that will be used to interact with the backen
 
 **Throws**
 
+- `403` if user is not logged in
+- `404` if the freetBreakdownId content is invalid
+
 #### `DELETE /api/freetBreakdown/:freetBreakdownId?` - Delete a freetBreakdown
 
 **Returns**
@@ -377,6 +391,12 @@ This renders the `index.html` file that will be used to interact with the backen
 - A success message
 
 **Throws**
+
+- `403` if user is not logged in
+- `403` if the user is not the author of the freetBreakdown
+- `404` if the freetBreakdown does not exist
+
+
 
 #### `PUT /api/freetBreakdown/modify/:freetBreakdownId?/:freetId?/:location` - Add a freet to a freetBreakdown at a certain location
 
@@ -387,6 +407,13 @@ This renders the `index.html` file that will be used to interact with the backen
 
 **Throws**
 
+- `403` if the user is not logged in
+- `404` if the freetBreakdownId is invalid
+- `404` if the freet being added does not exist
+- `403` if the user is not the author of the freetBreakdown
+- `400` if the new freetBreakdown content is empty list
+- 
+
 #### `DELETE /api/freetBreakdown/modify/:freetBreakdownId?/:freetId?` - Delete a freet from a freetBreakdown
 
 **Returns**
@@ -395,6 +422,10 @@ This renders the `index.html` file that will be used to interact with the backen
 - An object with the updated freetBreakdown
 
 **Throws**
+
+- `403` if user is not logged in
+- `404` if the freetBreakdownId is invalid
+- `403` if the user is not the author of the freetBreakdown
 
 #### `PUT /api/freetBreakdown/modifycontent/:freetBreakdownId?` - Add content in the form of a new freet in a certain location in the freetBreakdown
 
@@ -410,6 +441,11 @@ This renders the `index.html` file that will be used to interact with the backen
 
 **Throws**
 
+- `403` if user is not logged in
+- `404` if the freetBreakdownId is invalid
+- `403` if the user is not the author of the freetBreakdown
+- `400` if the new freetBreakdown content is empty list
+
 #### `GET /api/friend/:status` - Get all friends of current user with certain status
 **Returns**
 
@@ -418,6 +454,7 @@ This renders the `index.html` file that will be used to interact with the backen
 
 **Throws**
 
+- `403` if user is not logged in
 
 #### `POST /api/friend/` - Follow someone 
 
@@ -431,6 +468,11 @@ This renders the `index.html` file that will be used to interact with the backen
 
 **Throws**
 
+- `403` if user is not logged in
+- `404` if user is not valid
+- `400` if user being friended is the same as the current user
+- `400` if user is already friends with current user
+
 #### `PUT /api/friend/:userBId` - Block a follower
 **Returns**
 
@@ -438,6 +480,9 @@ This renders the `index.html` file that will be used to interact with the backen
 - An list of updated objects, with the relevant follower Friend object and the followig Friend object
 
 **Throws**
+
+- `403` if user is not logged in
+- `400` if the user being blocked is not a follower of the current user
 
 #### `PUT /api/friend/un/:userBId` - Unblock a follower
 **Returns**
@@ -447,6 +492,8 @@ This renders the `index.html` file that will be used to interact with the backen
 
 **Throws**
 
+- `403` if user is not logged in
+
 #### `PUT /api/friend/un/:userBId` - Unfollow someone (delete the Friend document from the collection)
 **Returns**
 
@@ -455,6 +502,8 @@ This renders the `index.html` file that will be used to interact with the backen
 
 **Throws**
 
+- `403` if user is not logged in
+
 #### `GET /api/circle/` - Get all the circles in the collection
 **Returns**
 
@@ -462,6 +511,8 @@ This renders the `index.html` file that will be used to interact with the backen
 - An list of objects with all  the circles in the collection
 
 **Throws**
+
+- `403` if user is not logged in
 
 #### `POST /api/circle/` - Create a new circle
 **Body**
@@ -475,6 +526,8 @@ This renders the `index.html` file that will be used to interact with the backen
 
 **Throws**
 
+- `403` if user is not logged in
+
 #### `DELETE /api/circle/:circleId?` - Delete a circle
 
 **Returns**
@@ -482,6 +535,8 @@ This renders the `index.html` file that will be used to interact with the backen
 - A success message
 
 **Throws**
+
+- `403` if user is not logged in
 
 
 #### `PUT /api/circle/modifymembers/:circleId?/:userId?` -  Add a user to a circle's membership
@@ -493,6 +548,9 @@ This renders the `index.html` file that will be used to interact with the backen
 
 **Throws**
 
+- `403` if user is not logged in or is not a circle modifier
+- `404` if the circle does not exist
+
 #### `DELETE /api/circle/modifymembers/:circleId?/:userId?` -  Remove a user from a circle's membership
 
 **Returns**
@@ -501,6 +559,9 @@ This renders the `index.html` file that will be used to interact with the backen
 - An object with the updated circle
 
 **Throws**
+
+- `403` if user is not logged in or is not a circle modifier
+- `404` if the circle does not exist
 
 #### `PUT /api/circle/modifyaccess/:circleId?/:userId?` -  Add an alias to a circle's access
 
@@ -511,6 +572,9 @@ This renders the `index.html` file that will be used to interact with the backen
 
 **Throws**
 
+- `403` if user is not logged in or is not a circle modifier
+- `404` if the circle does not exist
+
 #### `DELETE /api/circle/modifyaccess/:circleId?/:userId?` -  Remove an alias from a circle's access
 
 **Returns**
@@ -519,6 +583,9 @@ This renders the `index.html` file that will be used to interact with the backen
 - An object with the updated circle
 
 **Throws**
+
+- `403` if user is not logged in or is not a circle modifier
+- `404` if the circle does not exist
 
 #### `GET /api/circle/modifymyself` -  Get current user's circles
 
@@ -529,6 +596,8 @@ This renders the `index.html` file that will be used to interact with the backen
 
 **Throws**
 
+- `403` if user is not logged in
+
 #### `DELETE /api/circle/modifymyself/:circleId?` -  Leave a circle oneself
 
 **Returns**
@@ -537,6 +606,10 @@ This renders the `index.html` file that will be used to interact with the backen
 - The updated circle that the user has just left
 
 **Throws**
+
+- `403` if user is not logged in
+- `404` if the circle does not exist
+
 
 
 

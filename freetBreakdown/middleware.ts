@@ -26,21 +26,12 @@ const isFreetBreakdownExists = async (req: Request, res: Response, next: NextFun
  * spaces and not more than 140 characters
  */
 const isValidFreetBreakdownContent = (req: Request, res: Response, next: NextFunction) => {
-  const {freets} = req.body as {freets: Types.ObjectId[]};
-  // if (!content.trim()) {
+  // if (req.body.contents.length == 0){
   //   res.status(400).json({
-  //     error: 'FreetBreakdown content must be at least one character long.'
+  //     error: 'Need to have content in freetBreakdown'
   //   });
   //   return;
   // }
-
-  // if (content.length > 140) {
-  //   res.status(413).json({
-  //     error: 'FreetBreakdown content must be no more than 140 characters.'
-  //   });
-  //   return;
-  // }
-
   next();
 };
 
